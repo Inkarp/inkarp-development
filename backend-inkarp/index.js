@@ -15,7 +15,7 @@ const serviceEnquiryRoute = require('./routes/serviceEnquiry');
 // Load environment variables
 dotenv.config();
 
-  // Connect to MongoDB
+// Connect to MongoDB
 const startServer = async () => {
 
   const connectDB = require('./models/database.js');
@@ -33,6 +33,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       'http://localhost:5173',
+      "https://localhost:5173",
       'https://inkarp.co.in',
       'https://www.inkarp.co.in',
       'https://inkarppersonal.vercel.app',
@@ -47,12 +48,11 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS: ' + origin));
     }
   },
-  methods: [ 'POST', ],
+  methods: ['POST', 'GET', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
-
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -85,7 +85,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/enquiry', (req, res) => {
-  res.send('ENQUIRY API IS WORKING' );
+  res.send('ENQUIRY API IS WORKING');
 });
 
 
