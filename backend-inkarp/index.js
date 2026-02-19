@@ -27,20 +27,33 @@ const startServer = async () => {
 const app = express();
 app.set('trust proxy', true);
 
+// --------------------
+// CORS configuration
+// --------------------
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'https://inkarp.co.in',
+      'https://www.inkarp.co.in',
+      'https://inkarppersonal.vercel.app',
+      'https://inkarp-personal-demo.vercel.app'
+    ];
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (!origin) return callback(null, true);
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS: ' + origin));
+    }
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
 
-  next();
-});
-
-
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(bodyParser.json());

@@ -53,7 +53,7 @@ const formatInquiryType = (type) => {
 };
 
 // ---------------- ROUTE ----------------
-router.post('/submit', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const {
       name,
