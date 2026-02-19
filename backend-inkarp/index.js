@@ -29,23 +29,9 @@ app.set('trust proxy', true);
 
 
 app.use((req, res, next) => {
-  const allowedOrigins = [
-    "http://localhost:5173",
-    "https://inkarp.co.in",
-    "https://www.inkarp.co.in",
-    "https://inkarppersonal.vercel.app",
-    "https://inkarp-personal-demo.vercel.app"
-  ];
-
-  const origin = req.headers.origin;
-
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -53,6 +39,7 @@ app.use((req, res, next) => {
 
   next();
 });
+
 
 
 app.use(express.json());
