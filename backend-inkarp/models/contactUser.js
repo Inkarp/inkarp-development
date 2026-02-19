@@ -4,23 +4,23 @@ const contactUserSchema = new mongoose.Schema(
   {
     productName: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     name: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
       lowercase: true,
       trim: true,
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     jobTitle: String,
