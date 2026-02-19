@@ -49,7 +49,7 @@ export default function EnquiryForm({ isOpen, onClose, productName = "" }) {
 
     try {
       const res = await axios.post(
-        "https://inkarppersonal.vercel.app/api/enquiry/enquiry",
+        "https://inkarp-development-backend.vercel.app/api/enquiry/enquiry",
         formData
       );
 

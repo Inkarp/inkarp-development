@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const Enquiry = require('../models/contactUser');
 
 // Create email transporter
 const createTransporter = () => {
@@ -103,8 +104,32 @@ router.post('/submit', async (req, res) => {
       message,
       pageUrl,
       referrer,
-      searchKeyword, 
+      searchKeyword,
     } = req.body;
+
+    // Save to database
+    const newEnquiry = new Enquiry({
+      productName,
+      name,
+      email,
+      phone,
+      jobTitle,
+      company,
+      city,
+      state,
+      inquiryType,
+      isExistingCustomer,
+      purchaseTimeline,
+      application,
+      pageUrl,
+      referrer,
+      clientIp,
+      deviceType,
+      userAgent,
+    });
+
+    await newEnquiry.save();
+
 
     // 👉 Capture IP and device info here
     const clientIp = getClientIp(req);

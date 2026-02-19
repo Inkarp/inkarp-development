@@ -1,7 +1,7 @@
 // routes/careers.js
 const express = require('express');
 const router = express.Router();
-const CareerApplication = require('../models/CareerApplication');
+// const CareerApplication = require('../models/CareerApplication');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const path = require('path');

@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+
 const subscribeRoute = require('./routes/subscribe');
 const careersRouter = require('./routes/careerRoutes');
 const contactRouter = require('./routes/contactRoutes');
@@ -14,12 +15,20 @@ const serviceEnquiryRoute = require('./routes/serviceEnquiry');
 // Load environment variables
 dotenv.config();
 
+  // Connect to MongoDB
+const startServer = async () => {
+
+  const connectDB = require('./models/database.js');
+  await connectDB();
+  app.listen(process.env.PORT || 8000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 8000}`);
+  });
+};
+
 const app = express();
 app.set('trust proxy', true);
 
-// --------------------
-// CORS configuration
-// --------------------
+
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
@@ -42,9 +51,6 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-// --------------------
-// Middleware
-// --------------------
 app.use(cors(corsOptions));
 
 
@@ -52,9 +58,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// --------------------
-// Routes
-// --------------------
+
 app.use('/api/subscribe', subscribeRoute);
 console.log('Subscribe Routes Loaded');
 
@@ -76,18 +80,15 @@ console.log('Webinar Routes Loaded');
 app.use('/api/service', serviceEnquiryRoute);
 console.log('Service Routes Loaded');
 
-// --------------------
-// Health + Root routes
-// --------------------
 app.get('/', (req, res) => {
   res.send('Inkarp Backend is running');
 });
 
+app.get('/api/enquiry', (req, res) => {
+  res.send('ENQUIRY API IS WORKING' );
+});
 
 
-// --------------------
-// Error handler
-// --------------------
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -96,7 +97,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-// --------------------
-// REQUIRED FOR VERCEL
-// --------------------
+startServer();
 module.exports = app;

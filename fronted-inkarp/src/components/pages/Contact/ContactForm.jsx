@@ -75,7 +75,7 @@ export default function ContactForm() {
 
     try {
       const res = await axios.post(
-        "https://inkarppersonal.vercel.app/api/contact/submit",
+        "https://inkarp-development-backend.vercel.app/api/contact/submit",
         formData
       );
 
