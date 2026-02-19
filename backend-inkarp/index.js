@@ -29,30 +29,30 @@ const app = express();
 app.set('trust proxy', true);
 
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      'http://localhost:5173',
-      "https://localhost:5173",
-      'https://inkarp.co.in',
-      'https://www.inkarp.co.in',
-      'https://inkarppersonal.vercel.app',
-      'https://inkarp-personal-demo.vercel.app'
-    ];
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://inkarp.co.in',
+    'https://www.inkarp.co.in',
+    'https://inkarppersonal.vercel.app',
+    'https://inkarp-personal-demo.vercel.app'
+  ];
 
-    if (!origin) return callback(null, true);
+  const origin = req.headers.origin;
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS: ' + origin));
-    }
-  },
-  methods: ['POST', 'GET', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
 
-app.use(cors(corsOptions));
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -86,6 +86,10 @@ app.get('/', (req, res) => {
 
 app.get('/api/enquiry', (req, res) => {
   res.send('ENQUIRY API IS WORKING');
+});
+
+app.get('/api/contact/submit', (req, res) => {
+  res.send('CONTACT API IS WORKING');
 });
 
 

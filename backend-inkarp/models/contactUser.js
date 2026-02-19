@@ -1,45 +1,26 @@
 const mongoose = require('mongoose');
 
-const contactUserSchema = new mongoose.Schema(
+const contactSchema = new mongoose.Schema(
   {
-    productName: {
-      type: String,
-      // required: true,
-      trim: true,
-    },
-    name: {
-      type: String,
-      // required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      // required: true,
-      lowercase: true,
-      trim: true,
-    },
-    phone: {
-      type: String,
-      // required: true,
-      trim: true,
-    },
-    jobTitle: String,
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
     company: String,
+    jobTitle: String,
+    department: String,
     city: String,
     state: String,
     inquiryType: String,
-    isExistingCustomer: String,
-    purchaseTimeline: String,
     application: String,
+    message: String,
     pageUrl: String,
     referrer: String,
+    searchKeyword: String,
     clientIp: String,
     deviceType: String,
     userAgent: String,
   },
-  {
-    timestamps: true, // adds createdAt & updatedAt automatically
-  }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('ContactUser', contactUserSchema);
+module.exports = mongoose.model('ContactUser', contactSchema);
