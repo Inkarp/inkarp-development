@@ -37,7 +37,8 @@ const corsOptions = {
       'https://inkarp.co.in',
       'https://www.inkarp.co.in',
       'https://inkarppersonal.vercel.app',
-      'https://inkarp-personal-demo.vercel.app'
+      'https://inkarp-personal-demo.vercel.app',
+      "https://inkarp-development.vercel.app/"
     ];
 
     if (!origin) return callback(null, true);
