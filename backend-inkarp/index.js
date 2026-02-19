@@ -17,7 +17,6 @@ dotenv.config();
 
 // Connect to MongoDB
 const startServer = async () => {
-
   const connectDB = require('./models/database.js');
   await connectDB();
   app.listen(process.env.PORT || 8000, () => {
@@ -31,28 +30,30 @@ app.set('trust proxy', true);
 
 app.use((req, res, next) => {
   const allowedOrigins = [
-    'http://localhost:5173',
-    'https://inkarp.co.in',
-    'https://www.inkarp.co.in',
-    'https://inkarppersonal.vercel.app',
-    'https://inkarp-personal-demo.vercel.app'
+    "http://localhost:5173",
+    "https://inkarp.co.in",
+    "https://www.inkarp.co.in",
+    "https://inkarppersonal.vercel.app",
+    "https://inkarp-personal-demo.vercel.app"
   ];
 
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
   }
 
   next();
 });
+
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -86,10 +87,6 @@ app.get('/', (req, res) => {
 
 app.get('/api/enquiry', (req, res) => {
   res.send('ENQUIRY API IS WORKING');
-});
-
-app.get('/api/contact/submit', (req, res) => {
-  res.send('CONTACT API IS WORKING');
 });
 
 
