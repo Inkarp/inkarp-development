@@ -70,6 +70,7 @@ router.post('/submit', async (req, res) => {
       pageUrl,
       referrer,
       searchKeyword,
+      searchSource,
     } = req.body;
 
     // 1️⃣ Validate first
@@ -100,6 +101,7 @@ router.post('/submit', async (req, res) => {
       pageUrl,
       referrer,
       searchKeyword,
+      searchSource,
       clientIp,
       deviceType,
       userAgent,
@@ -125,6 +127,9 @@ router.post('/submit', async (req, res) => {
         <p><strong>Application:</strong> ${application || '-'}</p>
         <p><strong>Message:</strong> ${message || '-'}</p>
         <hr/>
+        <h3>Traffic Source:</h3>
+        ${searchSource ? `<p><strong>Source:</strong> ${searchSource}</p>` : ''}
+        ${searchKeyword ? `<p><strong>Search Keyword:</strong> ${searchKeyword}</p>` : ''}
         <p><strong>IP:</strong> ${clientIp}</p>
         <p><strong>Device:</strong> ${deviceType}</p>
       `,

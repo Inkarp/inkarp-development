@@ -20,13 +20,6 @@ const team = [
 ];
 
 
-// const steps = [
-//   { title: "Discover", desc: "Explore roles that match your passion." },
-//   { title: "Apply", desc: "Send in your resume or drop a message." },
-//   { title: "Connect", desc: "Have a conversation with our team." },
-//   { title: "Grow", desc: "Start your journey with Inkarp." },
-// ];
-
 export default function CareersV2() {
   // slides per view — responsive & updates on resize
   const getSPV = () => {

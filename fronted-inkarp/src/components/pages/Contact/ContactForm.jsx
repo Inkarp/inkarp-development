@@ -11,27 +11,117 @@ export default function ContactForm() {
         pageUrl: "",
         referrer: "",
         searchKeyword: "",
+        searchSource: "",
       };
     }
 
     const pageUrl = window.location.href;
     const referrer = document.referrer || "";
     let searchKeyword = "";
+    let searchSource = "";
 
     try {
-      if (referrer && referrer.includes("google.")) {
-        const refUrl = new URL(referrer);
-        const q = refUrl.searchParams.get("q");
-        if (q) searchKeyword = q;
+      const currentUrl = new URL(pageUrl);
+      
+      // Check URL parameters first (UTM, custom params)
+      const utmParams = ["utm_term", "utm_source", "keyword", "q", "search"];
+      for (const param of utmParams) {
+        const value = currentUrl.searchParams.get(param);
+        if (value) {
+          searchKeyword = value;
+          searchSource = "URL Parameter";
+          break;
+        }
       }
 
-      const currentUrl = new URL(pageUrl);
-      const utmTerm =
-        currentUrl.searchParams.get("utm_term") ||
-        currentUrl.searchParams.get("keyword");
+      // If no URL param, check referrer for search engines & AI platforms
+      if (referrer) {
+        const refUrl = new URL(referrer);
+        const refHostname = refUrl.hostname.toLowerCase();
 
-      if (!searchKeyword && utmTerm) {
-        searchKeyword = utmTerm;
+        // Search Engines
+        if (refHostname.includes("google.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Google Search";
+          }
+        } else if (refHostname.includes("bing.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Bing Search";
+          }
+        } else if (refHostname.includes("duckduckgo.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "DuckDuckGo";
+          }
+        } else if (refHostname.includes("yahoo.")) {
+          const p = refUrl.searchParams.get("p");
+          if (p && !searchKeyword) {
+            searchKeyword = p;
+            searchSource = "Yahoo Search";
+          }
+        } else if (refHostname.includes("yandex.")) {
+          const text = refUrl.searchParams.get("text");
+          if (text && !searchKeyword) {
+            searchKeyword = text;
+            searchSource = "Yandex Search";
+          }
+        } else if (refHostname.includes("baidu.")) {
+          const wd = refUrl.searchParams.get("wd");
+          if (wd && !searchKeyword) {
+            searchKeyword = wd;
+            searchSource = "Baidu Search";
+          }
+        }
+
+        // AI Platforms
+        else if (refHostname.includes("chatgpt.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "ChatGPT";
+          }
+        } else if (refHostname.includes("perplexity.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Perplexity AI";
+          }
+        } else if (refHostname.includes("claude.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Claude AI";
+          }
+        } else if (refHostname.includes("gemini.") || refHostname.includes("google.") && refUrl.pathname.includes("gemini")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Google Gemini";
+          }
+        } else if (refHostname.includes("copilot.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Microsoft Copilot";
+          }
+        } else if (refHostname.includes("you.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "You.com";
+          }
+        } else if (refHostname.includes("kagi.")) {
+          const q = refUrl.searchParams.get("q");
+          if (q && !searchKeyword) {
+            searchKeyword = q;
+            searchSource = "Kagi Search";
+          }
+        }
       }
     } catch (e) {
       console.warn("Error parsing search keyword:", e);
@@ -41,6 +131,7 @@ export default function ContactForm() {
       pageUrl,
       referrer,
       searchKeyword,
+      searchSource,
     };
   };
 
@@ -147,6 +238,17 @@ export default function ContactForm() {
               }`}
             >
               {status.message}
+            </div>
+          )}
+
+          {(formData.searchKeyword || formData.searchSource) && (
+            <div className="mb-6 p-4 rounded-lg bg-blue-50 border border-blue-200 text-sm">
+              <p className="text-blue-700 font-[Roboto]">
+                <span className="font-semibold">Source Detected:</span> {formData.searchSource || "Unknown"}
+                {formData.searchKeyword && (
+                  <span> | <strong>Keyword:</strong> {formData.searchKeyword}</span>
+                )}
+              </p>
             </div>
           )}
 

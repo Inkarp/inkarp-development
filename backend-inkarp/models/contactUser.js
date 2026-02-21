@@ -16,6 +16,7 @@ const contactSchema = new mongoose.Schema(
     pageUrl: String,
     referrer: String,
     searchKeyword: String,
+    searchSource: String,
     clientIp: String,
     deviceType: String,
     userAgent: String,
