@@ -34,6 +34,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       'http://localhost:5173',
+      'http://localhost:5174',
       'https://inkarp.co.in',
       'https://www.inkarp.co.in',
       'https://inkarppersonal.vercel.app',
